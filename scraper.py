@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # File name: scraper.py
+# Script for collecting comments from the subreddit r/thenetherlands, sorted by 'Controversial' and 'All time'.
 # Author: Zhenja Gnezdilov
 
 import praw
@@ -24,13 +25,13 @@ def scraper():
             if comment.body == "[deleted]" or comment.body == "[removed]":
                 continue
             comment_counter += 1
-            posts.append([comment_counter, post.id, comment.body, ""])
+            posts.append([post.id, comment.body, ""])
         # get around 500 comments
         if comment_counter >= 500:
             break
     print(f"Got {comment_counter} comments in total. The comments were taken from {post_counter} posts.")
     print("Saving them to a .csv file...\n")
-    df = pd.DataFrame(posts, columns=["counter", "post id", "text", "explicitness"])
+    df = pd.DataFrame(posts, columns=["post id", "text", "explicitness"])
     df.to_csv("reddit_comments.csv", index=False, encoding="utf-8", na_rep="")
 
 
